@@ -3,6 +3,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 
 Main::Main()
 {
@@ -11,9 +12,8 @@ Main::Main()
 
 Main::~Main()
 {
-	// GET_SINGLE(SceneManager)->Clear();
-	// GET_SINGLE(ResourceManager)->Clear();
 	GET_SINGLE(SceneManager)->Clear();
+	GET_SINGLE(ResourceManager)->Clear();
 	_CrtDumpMemoryLeaks();
 }
 
@@ -33,6 +33,7 @@ void Main::Init(HWND hwnd)
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(InputManager)->Init(hwnd);
 	GET_SINGLE(SceneManager)->Init();
+	GET_SINGLE(ResourceManager)->Init();
 
 	// DEFAULT SCENE 
 	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);

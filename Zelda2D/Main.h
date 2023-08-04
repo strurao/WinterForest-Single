@@ -18,6 +18,7 @@ private:
 	// DOUBLE BUFFERING
 	RECT _rect;
 	HDC _hdcBack = {}; // Back Buffer
-	HBITMAP _bmpBack = {}; 
+	HBITMAP _bmpBack = {}; // Front Buffer. 백버퍼에서 그린걸 화면에 나타낸다.
 };
+
 

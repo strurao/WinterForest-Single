@@ -2,6 +2,8 @@
 #include "SceneManager.h"
 #include "DevScene.h"
 #include "GameScene.h"
+#include "Resource.h"
+#include "EditScene.h"
 
 void SceneManager::Init()
 {
@@ -26,7 +28,7 @@ void SceneManager::Clear()
 
 void SceneManager::ChangeScene(SceneType sceneType)
 {
-	if (_sceneType == sceneType)
+	if (_sceneType == sceneType) // 바꾸고자 하는 씬타입이 현재 씬타입과 같다면
 		return;
 
 	Scene* newScene = nullptr;
@@ -36,10 +38,11 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		case SceneType::DevScene:
 			newScene = new DevScene();
 			break;
-
 		case SceneType::GameScene:
 			newScene = new GameScene();
-
+			break;
+		case SceneType::EditScene:
+			newScene = new EditScene();
 			break;
 	}
 

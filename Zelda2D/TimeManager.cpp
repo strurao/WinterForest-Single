@@ -17,10 +17,10 @@ void TimeManager::Update()
 	_deltaTime = (currentCount - _prevCount) / static_cast<float>(_frequency);
 	_prevCount = currentCount;
 
-	_frameCount++;
+	_frameCount++; // 몇번 호출되었는지
 	_frameTime += _deltaTime;
 
-	if (_frameTime >= 1.f)
+	if (_frameTime >= 1.f) // 1초가 되면
 	{
 		_fps = static_cast<uint32>(_frameCount / _frameTime);
 
