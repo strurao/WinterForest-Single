@@ -10,6 +10,7 @@
 #include "SpriteActor.h"
 #include "Sprite.h"
 #include "Player.h"
+#include "GameObject.h"
 
 DevScene::DevScene()
 {
@@ -46,7 +47,7 @@ void DevScene::Init()
 		background->SetSprite(sprite);
 		const Vec2Int size = sprite->GetSize();
 		background->SetPos(Vec2(size.x / 2, size.y / 2));
-		_background = background;
+		_actors.push_back(background);
 	}
 	{
 		Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Start_On");
@@ -54,24 +55,25 @@ void DevScene::Init()
 		player->SetSprite(sprite);
 		const Vec2Int size = sprite->GetSize();
 		player->SetPos(Vec2(size.x / 2, size.y / 2));
-		_player = player;
+		_actors.push_back(player);
 	}
 
-	_background->BeginPlay();
-	_player->BeginPlay();
+	for (Actor* actor : _actors)
+		actor->BeginPlay();
+
 }
 
 void DevScene::Update()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 	// 거리 = 시간 * 속도
-	_background->Tick();
-	_player->Tick();
+
+	for (Actor* actor : _actors)
+		actor->Tick();
 }
 
 void DevScene::Render(HDC hdc)
 {
-	_background->Render(hdc);
-	_player->Render(hdc);
-
+	for (Actor* actor : _actors)
+		actor->Render(hdc);
 }
