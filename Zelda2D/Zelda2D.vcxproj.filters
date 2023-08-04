@@ -52,6 +52,12 @@
     <Filter Include="소스 파일\05. Component\Game">
       <UniqueIdentifier>{9cbd4c4c-288e-4234-b628-50c4c7334aea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\05. Component\Collision">
+      <UniqueIdentifier>{e966c060-0312-4696-a5de-aaec820c5fa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\05. Component\Camera">
+      <UniqueIdentifier>{3a12d28c-3b90-4594-a5af-5a1a53e4ca9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Zelda2D.h">
@@ -142,7 +148,16 @@
       <Filter>소스 파일\03. Objects\Unreal</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
-      <Filter>소스 파일\05. Component</Filter>
+      <Filter>소스 파일\05. Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>소스 파일\05. Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>소스 파일\05. Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>소스 파일\05. Component\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +241,16 @@
       <Filter>소스 파일\03. Objects\Unreal</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
-      <Filter>소스 파일\05. Component</Filter>
+      <Filter>소스 파일\05. Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>소스 파일\05. Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>소스 파일\05. Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>소스 파일\05. Component\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

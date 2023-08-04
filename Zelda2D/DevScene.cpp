@@ -11,6 +11,9 @@
 #include "Sprite.h"
 #include "Player.h"
 #include "Flipbook.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
 
 DevScene::DevScene()
 {
@@ -63,11 +66,6 @@ void DevScene::Init()
 	}
 
 	{
-		Player* player = new Player();
-		AddActor(player);
-	}
-
-	{
 		Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage01");
 		SpriteActor* background = new SpriteActor();
 		background->SetSprite(sprite);
@@ -75,6 +73,29 @@ void DevScene::Init()
 		const Vec2Int size = sprite->GetSize();
 		background->SetPos(Vec2(size.x / 2, size.y / 2));
 		AddActor(background);
+	}
+
+	{
+		Player* player = new Player();
+		{
+			SphereCollider* collider = new SphereCollider();
+			collider->SetRadius(100);
+			player->AddComponent(collider);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+		}
+		AddActor(player);
+	}
+
+	{
+		Actor* player = new Actor();
+		{
+			SphereCollider* collider = new SphereCollider();
+			collider->SetRadius(50);
+			player->AddComponent(collider);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			player->SetPos({ 400,200 });
+		}
+		AddActor(player);
 	}
 
 	for (const vector<Actor*>& actors : _actors)
@@ -86,7 +107,9 @@ void DevScene::Init()
 void DevScene::Update()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
-	// 거리 = 시간 * 속도
+	
+	GET_SINGLE(CollisionManager)->Update();
+
 	for (const vector<Actor*>& actors : _actors)
 		for (Actor* actor : actors)
 			actor->Tick();
