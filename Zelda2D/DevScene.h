@@ -3,7 +3,7 @@
 class Actor;
 
 class DevScene : public Scene
-{
+{ 
 public:
 	DevScene();
 	virtual ~DevScene() override;

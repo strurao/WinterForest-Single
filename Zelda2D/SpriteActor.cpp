@@ -29,7 +29,8 @@ void SpriteActor::Render(HDC hdc)
 
 	Vec2Int size = _sprite->GetSize();
 
-	::BitBlt(hdc, 
+	/*
+	::BitBlt(hdc,
 		(int32)_pos.x - size.x / 2, 
 		(int32)_pos.x - size.y / 2,
 		size.x,
@@ -38,4 +39,19 @@ void SpriteActor::Render(HDC hdc)
 		_sprite->GetPos().x,
 		_sprite->GetPos().y,
 		SRCCOPY);
+	*/
+
+	::TransparentBlt(hdc,
+		(int32)_pos.x - size.x / 2,
+		(int32)_pos.x - size.y / 2,
+		size.x,
+		size.y,
+		_sprite->GetDC(),
+		_sprite->GetPos().x,
+		_sprite->GetPos().y,
+		_sprite->GetSize().x,
+		_sprite->GetSize().y,
+		_sprite->GetTransparent());
+	    // RGB(255,255,255));
+
 }
