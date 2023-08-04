@@ -20,7 +20,15 @@ Main::~Main()
 void Main::Init(HWND hwnd)
 {
 	_hwnd = hwnd; // 윈도우 번호
-	_hdc = ::GetDC(hwnd); // 그리는 도화지의 번호
+	_hdc = ::GetDC(hwnd); // 그리는 도화지의 번호. 윈도우 핸들로 DC 를 얻어온다
+	
+	::GetClientRect(hwnd, &_rect);
+
+	// 또다른 도화지를 만든다. 임시적으로 처리가능한 비트맵을 만들어서 연결해준다.
+	_hdcBack = ::CreateCompatibleDC(_hdc); // _hdc 와 호환되는 DC를 생성
+	_bmpBack = ::CreateCompatibleBitmap(_hdc, _rect.right, _rect.bottom); // _hdc 와 호환되는 비트맵 생성
+	HBITMAP prev = (HBITMAP)::SelectObject(_hdcBack, _bmpBack); // DC 와 BP를 연결
+	::DeleteObject(prev); // 예전에 사용하던 것은 삭제
 
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(InputManager)->Init(hwnd);
@@ -45,13 +53,17 @@ void Main::Render()
 	{
 		POINT mousePos = GET_SINGLE(InputManager)->GetMousePos();
 		wstring str = std::format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
-		::TextOut(_hdc, 20, 10, str.c_str(), static_cast<int32>(str.size()));
+		::TextOut(_hdcBack, 20, 10, str.c_str(), static_cast<int32>(str.size()));
 	}
 
 	{
 		wstring str = std::format(L"FPS({0}), DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));
-		::TextOut(_hdc, 650, 10, str.c_str(), static_cast<int32>(str.size()));
+		::TextOut(_hdcBack, 650, 10, str.c_str(), static_cast<int32>(str.size()));
 	}
 
-	GET_SINGLE(SceneManager)->Render(_hdc);
+	GET_SINGLE(SceneManager)->Render(_hdcBack);
+
+	// DOUBLE BUFFERING
+	::BitBlt(_hdc, 0, 0, _rect.right, _rect.bottom, _hdcBack, 0, 0, SRCCOPY); // 비트블릿 함수 : 고속 복사
+	::PatBlt(_hdcBack, 0, 0, _rect.right, _rect.bottom, WHITENESS); // 도화지를 하얀색으로 리셋해주기
 }
