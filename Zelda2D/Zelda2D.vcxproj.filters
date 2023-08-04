@@ -43,6 +43,9 @@
     <Filter Include="소스 파일\04. Resources\Game">
       <UniqueIdentifier>{7d5993e6-3996-4e76-ae14-3b592cdc6692}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03. Objects\Unreal">
+      <UniqueIdentifier>{cbdfe30f-4b42-441e-9134-ae815b7bf825}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Zelda2D.h">
@@ -114,6 +117,15 @@
     <ClInclude Include="Sprite.h">
       <Filter>소스 파일\04. Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>소스 파일\03. Objects\Unreal</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteActor.h">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\03. Objects\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Zelda2D.rc">
@@ -176,6 +188,15 @@
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>소스 파일\04. Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>소스 파일\03. Objects\Unreal</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteActor.cpp">
+      <Filter>소스 파일\03. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\03. Objects\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

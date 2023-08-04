@@ -21,6 +21,8 @@ public:
 	Texture* GetTexture(const wstring& key) { return _textures[key]; }
 	Texture* LoadTexture(const wstring& key, const wstring& path, uint32 transparent = RGB(255, 0, 255));
 
+	Sprite* GetSprite(const wstring& key) { return _sprites[key]; }
+
 private:
 	HWND _hwnd;
 	fs::path _resourcePath;
