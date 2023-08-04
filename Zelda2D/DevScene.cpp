@@ -10,7 +10,6 @@
 #include "SpriteActor.h"
 #include "Sprite.h"
 #include "Player.h"
-#include "GameObject.h"
 
 DevScene::DevScene()
 {
