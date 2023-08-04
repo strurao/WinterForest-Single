@@ -5,5 +5,13 @@ enum class SceneType
 	None,
 	DevScene,
 	EditScene,
-	GameScene,
+};
+
+enum LAYER_TYPE
+{
+	LAYER_BACKGROUND,
+	LAYER_OBJECT,
+	LAYER_UI,
+
+	LAYER_MAXCOUNT
 };
