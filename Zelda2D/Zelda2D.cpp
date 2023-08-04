@@ -1,15 +1,18 @@
 ﻿// Zelda2D.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
-
+#include "pch.h"
 #include "framework.h"
 #include "Zelda2D.h"
+#include "Main.h"
 
 #define MAX_LOADSTRING 100
 
+int mousePosX;
+int mousePosY;
+
 // 전역 변수:
-HINSTANCE hInst;                                // 현재 인스턴스입니다.
-WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
-WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+HINSTANCE hInst; 
+HWND g_hWnd;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -30,17 +33,37 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 2) 윈도우 창 생성 
     if (!InitInstance (hInstance, nCmdShow))
         return FALSE;
+    
+    Main main;
+    main.Init(g_hWnd);
 
-    MSG msg;
+    MSG msg = {};
+    uint64 prevTick = 0;
 
     // 3) 메인 루프
     // 입력
     // 로직
     // 렌더링
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (msg.message != WM_QUIT)
     {
-        ::TranslateMessage(&msg);
-        ::DispatchMessage(&msg);
+        if (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            ::TranslateMessage(&msg);
+            ::DispatchMessage(&msg);
+        }
+        else
+        {
+            uint64 now = ::GetTickCount64();
+
+            if (now - prevTick >= 30)
+            {
+                // 게임
+                main.Update();
+                main.Render();
+
+                prevTick = now;
+            }
+        }
     }
 
     return (int) msg.wParam;
@@ -94,6 +117,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(L"Zelda", L"Zelda Client", WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, hInstance, nullptr);
 
+   g_hWnd = hWnd;
+
    if (!hWnd)
    {
       return FALSE;
@@ -142,8 +167,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_MOUSEMOVE:
-        int x = LOWORD(lParam);
-        int y = LOWORD(lParam);
+        mousePosX = LOWORD(lParam);
+        mousePosY = HIWORD(lParam);
+        ::InvalidateRect(hWnd, nullptr, TRUE);
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
