@@ -4,18 +4,24 @@
 #include "Defines.h"
 #include "Enums.h"
 #include "Utils.h"
-// #include "Values.h"
+#include "Values.h"
 
 #include <windows.h>
 #include <vector>
 #include <list>
 #include <map>
 #include <unordered_map>
+#include <set>
+#include <unordered_set>
 #include <string>
 #include <algorithm>
+#include <functional>
 using namespace std;
 
+// C++ 20
 #include <format>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 // 메모리 릭을 확인해준다
 #define _CRTDEBG_MAP_ALLOC 

@@ -3,6 +3,9 @@
 #include "Utils.h"
 #include "InputManager.h"
 #include "TimeManager.h"
+#include "ResourceManager.h"
+#include "Texture.h"
+#include "Values.h"
 
 DevScene::DevScene()
 {
@@ -14,6 +17,18 @@ DevScene::~DevScene()
 
 void DevScene::Init()
 {
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Stage01", L"Sprite\\Map\\Stage01.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Sword", L"Sprite\\Item\\Sword.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Potion", L"Sprite\\UI\\Mp.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDown", L"Sprite\\Player\\PlayerDown.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerUp", L"Sprite\\Player\\PlayerUp.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerLeft", L"Sprite\\Player\\PlayerLeft.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerRight", L"Sprite\\Player\\PlayerRight.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Start", L"Sprite\\UI\\Start.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Edit", L"Sprite\\UI\\Edit.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Exit", L"Sprite\\UI\\Exit.bmp");
+
+
 }
 
 void DevScene::Update()
@@ -21,28 +36,11 @@ void DevScene::Update()
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 	// 거리 = 시간 * 속도
 
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
-	{
-		_playerPos.x -= _speed * deltaTime;
-	}
-
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::D))
-	{
-		_playerPos.x += _speed * deltaTime;
-	}
-
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::W))
-	{
-		_playerPos.y -= _speed * deltaTime;
-	}
-
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::S))
-	{
-		_playerPos.y += _speed * deltaTime;
-	}
 }
 
 void DevScene::Render(HDC hdc)
 {
-	Utils::DrawCircle(hdc, _playerPos, 50);
+	Texture* tex = GET_SINGLE(ResourceManager)->GetTexture(L"Stage01");
+	
+	::BitBlt(hdc, 0, 0, GWinSizeX, GWinSizeY, tex->GetDC(), 0, 0, SRCCOPY);
 }

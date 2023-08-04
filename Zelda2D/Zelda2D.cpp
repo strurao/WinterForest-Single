@@ -56,7 +56,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             uint64 now = ::GetTickCount64();
 
-            if (now - prevTick >= 30)
+            // if (now - prevTick >= 30)
             {
                 // 게임
                 main.Update();

@@ -33,7 +33,7 @@ void Main::Init(HWND hwnd)
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(InputManager)->Init(hwnd);
 	GET_SINGLE(SceneManager)->Init();
-	GET_SINGLE(ResourceManager)->Init();
+	GET_SINGLE(ResourceManager)->Init(hwnd, fs::path(L"D:\\Programs\\VisualStudio\\source\\repos\\Zelda2D\\Resources"));
 
 	// DEFAULT SCENE 
 	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);
@@ -48,6 +48,8 @@ void Main::Update()
 
 void Main::Render()
 {
+	GET_SINGLE(SceneManager)->Render(_hdcBack);
+
 	uint32 fps = GET_SINGLE(TimeManager)->GetFPS();
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
@@ -61,8 +63,6 @@ void Main::Render()
 		wstring str = std::format(L"FPS({0}), DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));
 		::TextOut(_hdcBack, 650, 10, str.c_str(), static_cast<int32>(str.size()));
 	}
-
-	GET_SINGLE(SceneManager)->Render(_hdcBack);
 
 	// DOUBLE BUFFERING
 	::BitBlt(_hdc, 0, 0, _rect.right, _rect.bottom, _hdcBack, 0, 0, SRCCOPY); // 비트블릿 함수 : 고속 복사
