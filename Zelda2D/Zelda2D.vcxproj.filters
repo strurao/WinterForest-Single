@@ -180,6 +180,9 @@
     <ClInclude Include="Panel.h">
       <Filter>소스 파일\06. UI</Filter>
     </ClInclude>
+    <ClInclude Include="TestPanel.h">
+      <Filter>소스 파일\06. UI\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Zelda2D.rc">
@@ -287,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="Panel.cpp">
       <Filter>소스 파일\06. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TestPanel.cpp">
+      <Filter>소스 파일\06. UI\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

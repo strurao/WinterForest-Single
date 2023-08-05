@@ -25,6 +25,7 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
+	void SetSize(Vec2Int size) { _size = size; }
 	Sprite* GetSprite(ButtonState state) { return _sprites[state]; }
 
 	void SetCurrentSprite(Sprite* sprite) { _currentSprite = sprite; }
