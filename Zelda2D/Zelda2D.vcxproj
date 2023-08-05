@@ -167,6 +167,7 @@
     <ClInclude Include="TestButton.h" />
     <ClInclude Include="TestPanel.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Tilemap.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UI.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="TestButton.cpp" />
     <ClCompile Include="TestPanel.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Utils.cpp" />

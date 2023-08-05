@@ -26,7 +26,7 @@ public:
 
 	Flipbook* GetFlipbook(const wstring& key) { return _flipbooks[key]; }
 	Flipbook* CreateFlipbook(const wstring& key);
-
+	 
 private:
 	HWND _hwnd;
 	fs::path _resourcePath;
