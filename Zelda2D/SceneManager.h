@@ -1,4 +1,5 @@
 #pragma once
+class Scene;
 class SceneManager
 {
 	DECLARE_SINGLE(SceneManager)
@@ -12,9 +13,10 @@ public:
 
 public:
 	void ChangeScene(SceneType sceneType);
+	Scene* GetCurrentScene() { return _scene; }
 
 private:
-	class Scene* _scene;
+	Scene* _scene;
 	SceneType _sceneType = SceneType::None;
 
 public:

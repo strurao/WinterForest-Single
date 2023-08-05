@@ -159,6 +159,9 @@
     <ClInclude Include="SphereCollider.h">
       <Filter>소스 파일\05. Component\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>소스 파일\01. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Zelda2D.rc">
@@ -251,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>소스 파일\05. Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
