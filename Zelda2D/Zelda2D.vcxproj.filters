@@ -58,6 +58,9 @@
     <Filter Include="소스 파일\05. Component\Camera">
       <UniqueIdentifier>{3a12d28c-3b90-4594-a5af-5a1a53e4ca9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06. UI">
+      <UniqueIdentifier>{068603e7-672a-4203-a939-4e5b4f97dc46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Zelda2D.h">
@@ -162,6 +165,12 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>소스 파일\01. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>소스 파일\06. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>소스 파일\06. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Zelda2D.rc">
@@ -257,6 +266,12 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일\06. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>소스 파일\06. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
