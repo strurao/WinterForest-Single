@@ -49,9 +49,9 @@ void TilemapActor::Render(HDC hdc)
 	Vec2 cameraPos = GET_SINGLE(SceneManager)->GetCameraPos();
 
 	// 컬링 : 보여야 할 애들만 보여주기
-	int32 leftX = ((int32)cameraPos.x - GWinSizeX / 2);
+	int32 leftX = ((int32)cameraPos.x - GWinSizeX / 2); // 상단
 	int32 leftY = ((int32)cameraPos.y - GWinSizeY / 2);
-	int32 rightX = ((int32)cameraPos.x + GWinSizeX / 2);
+	int32 rightX = ((int32)cameraPos.x + GWinSizeX / 2); // 하단
 	int32 rightY = ((int32)cameraPos.y + GWinSizeY / 2);
 
 	int32 startX = (leftX - _pos.x) / TILE_SIZEX;
@@ -125,7 +125,7 @@ void TilemapActor::TilePicking()
 		Tile* tile = _tilemap->GetTileAt({ x, y });
 		if (tile)
 		{
-			tile->value = 1;
+			tile->value = 1; // O->X
 		}
 	}
 }

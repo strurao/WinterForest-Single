@@ -35,6 +35,6 @@ public:
 private:
 	Vec2Int _mapSize = {};
 	int32 _tileSize = 0;
-	vector<vector<Tile>> _tiles; // _tiled[y][x]
+	vector<vector<Tile>> _tiles; // _tiles[y][x]
 };
 
