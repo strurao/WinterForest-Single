@@ -15,6 +15,8 @@
 #include "SphereCollider.h"
 #include "CollisionManager.h"
 #include "UI.h"
+#include "TilemapActor.h"
+#include "Tilemap.h"
 
 DevScene::DevScene()
 {
@@ -27,6 +29,8 @@ DevScene::~DevScene()
 void DevScene::Init()
 {
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Stage01", L"Sprite\\Map\\Stage01.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Tile", L"Sprite\\Map\\Tile.bmp", RGB(128, 128, 128));
+
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Sword", L"Sprite\\Item\\Sword.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Potion", L"Sprite\\UI\\Mp.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDown", L"Sprite\\Player\\PlayerDown.bmp", RGB(128, 128, 128));
@@ -38,6 +42,9 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Exit", L"Sprite\\UI\\Exit.bmp");
 
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Stage01", GET_SINGLE(ResourceManager)->GetTexture(L"Stage01"));
+	GET_SINGLE(ResourceManager)->CreateSprite(L"TileO", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 0, 0, 48, 48);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"TileX", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 48, 0, 48, 48);
+
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 0, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_On", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 150, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Edit_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Edit"), 0, 0, 150, 150);
@@ -79,10 +86,12 @@ void DevScene::Init()
 	{
 		Player* player = new Player();
 		{
+			/*
 			SphereCollider* collider = new SphereCollider();
 			collider->SetRadius(100);
 			player->AddComponent(collider);
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			*/
 		}
 		AddActor(player);
 	}
@@ -90,13 +99,30 @@ void DevScene::Init()
 	{
 		Actor* player = new Actor();
 		{
+			/*
 			SphereCollider* collider = new SphereCollider();
 			collider->SetRadius(50);
 			player->AddComponent(collider);
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
 			player->SetPos({ 400,200 });
+			*/
 		}
 		AddActor(player);
+	}
+
+	{
+		TilemapActor* actor = new TilemapActor();
+		AddActor(actor);
+		_tilemapActor = actor;
+		{
+			auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_01");
+			tm->SetMapSize({ 63, 43 });
+			tm->SetTileSize(48);
+
+			_tilemapActor->SetTilemap(tm);
+			_tilemapActor->SetShowDebug(true);
+		}
+
 	}
 
 	Super::Init();
