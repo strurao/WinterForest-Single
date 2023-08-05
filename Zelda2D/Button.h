@@ -37,5 +37,31 @@ protected:
 	ButtonState _state = BS_Default;
 
 	float _sumTime = 0.f;
+
+public:
+	template<typename T>
+	void AddOnClickDelegate(T* owner, void(T::* func)())
+	{
+		_onClick = [owner, func]()
+		{
+			(owner->*func)();
+		};
+	}
+
+	// 함수 포인터 + 함수 객체
+	std::function<void(void)> _onClick = nullptr;
+
+	/*
+	// 함수 포인터 예
+	static void Test() {}
+	// void(*_onClickFunc)();
+	using OnClickButtonFuncType = void(*)();
+	OnClickButtonFuncType _onClickFunc = nullptr;
+	void TestMem() {}
+	using OnClickButtonMemFuncType = void(Button::*)();
+	Button* _owner = nullptr;
+	OnClickButtonMemFuncType _onClickMemFunc = nullptr;
+	*/
+
 };
 

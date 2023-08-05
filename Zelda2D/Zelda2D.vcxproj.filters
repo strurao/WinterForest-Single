@@ -61,6 +61,9 @@
     <Filter Include="소스 파일\06. UI">
       <UniqueIdentifier>{068603e7-672a-4203-a939-4e5b4f97dc46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06. UI\Game">
+      <UniqueIdentifier>{119be31d-84bf-4bac-9ba2-cf951623a3c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Zelda2D.h">
@@ -171,6 +174,9 @@
     <ClInclude Include="Button.h">
       <Filter>소스 파일\06. UI</Filter>
     </ClInclude>
+    <ClInclude Include="TestButton.h">
+      <Filter>소스 파일\06. UI\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Zelda2D.rc">
@@ -272,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>소스 파일\06. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TestButton.cpp">
+      <Filter>소스 파일\06. UI\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

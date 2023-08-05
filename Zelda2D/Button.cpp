@@ -47,7 +47,19 @@ void Button::Tick()
 			{
 				SetButtonState(BS_Clicked);
 				// OnClicked
-				
+				if (_onClick)
+					_onClick();
+
+				/*
+				// 일반함수에 대한 함수 포인터
+				_onClickFunc = &Test;
+				_onClickFunc();
+				// 멤버함수에 대한 함수 포인터
+				_onClickMemFunc = &Button::TestMem;
+				_owner = this;
+				(_owner->_onClickMemFunc)();
+				*/
+			
 			}
 		}
 	}
