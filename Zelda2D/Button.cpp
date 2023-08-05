@@ -16,6 +16,7 @@ void Button::BeginPlay()
 {
 	Super::BeginPlay();
 	SetButtonState(BS_Default);
+	AddOnClickDelegate(this, &Button::OnClickButton);
 }
 
 void Button::Tick()

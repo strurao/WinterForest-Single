@@ -31,6 +31,8 @@ public:
 	void SetSprite(Sprite* sprite, ButtonState state) { _sprites[state] = sprite; }
 	void SetButtonState(ButtonState state);
 
+	void OnClickButton() {}
+
 protected:
 	Sprite* _currentSprite = nullptr;
 	Sprite* _sprites[BS_MaxCount] = {};
