@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 
 Main::Main()
 {
@@ -34,6 +35,7 @@ void Main::Init(HWND hwnd)
 	GET_SINGLE(InputManager)->Init(hwnd);
 	GET_SINGLE(SceneManager)->Init();
 	GET_SINGLE(ResourceManager)->Init(hwnd, fs::path(L"D:\\Programs\\VisualStudio\\source\\repos\\Zelda2D\\Resources"));
+	GET_SINGLE(SoundManager)->Init(hwnd);
 
 	// DEFAULT SCENE 
 	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);

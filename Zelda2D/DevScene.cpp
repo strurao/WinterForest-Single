@@ -17,6 +17,8 @@
 #include "UI.h"
 #include "TilemapActor.h"
 #include "Tilemap.h"
+#include "SoundManager.h"
+#include "Sound.h"
 
 DevScene::DevScene()
 {
@@ -122,6 +124,15 @@ void DevScene::Init()
 		}
 
 	}
+
+	GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
+	{
+		Sound* sound = GET_SINGLE(ResourceManager)->GetSound(L"BGM");
+		sound->Play(true);
+
+		// GET_SINGLE(SoundManager)->Play(L"BGM");
+	}
+
 
 	Super::Init();
 }
