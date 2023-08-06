@@ -84,30 +84,36 @@ void DevScene::Init()
 	}
 
 	{
-		Player* player = new Player();
 		{
-			/*
-			SphereCollider* collider = new SphereCollider();
-			collider->SetRadius(100);
-			player->AddComponent(collider);
+			///* 충돌 기능 
+			Player* player = new Player();
+			player->SetPos({ 100,100 });
+
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 100,100 });
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
-			*/
+			player->AddComponent(collider);
+
+			AddActor(player);
+			//*/
 		}
-		AddActor(player);
 	}
 
 	{
-		Actor* player = new Actor();
 		{
-			/*
-			SphereCollider* collider = new SphereCollider();
-			collider->SetRadius(50);
-			player->AddComponent(collider);
+			///* 충돌 기능 테스트 
+			Actor* test = new Actor();
+			test->SetLayer(LAYER_OBJECT);
+
+			test->SetPos({ 300,200 });
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 100,100 });
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
-			player->SetPos({ 400,200 });
-			*/
+			test->AddComponent(collider);
+
+			AddActor(test);
+			//*/
 		}
-		AddActor(player);
 	}
 
 	{
@@ -120,7 +126,7 @@ void DevScene::Init()
 			tm->SetTileSize(48);
 
 			_tilemapActor->SetTilemap(tm);
-			_tilemapActor->SetShowDebug(true);
+			// _tilemapActor->SetShowDebug(true);
 		}
 
 	}
@@ -128,7 +134,7 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
 	{
 		Sound* sound = GET_SINGLE(ResourceManager)->GetSound(L"BGM");
-		sound->Play(true);
+		// sound->Play(true);
 
 		// GET_SINGLE(SoundManager)->Play(L"BGM");
 	}

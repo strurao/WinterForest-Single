@@ -29,8 +29,16 @@ bool Collider::CheckCollision(Collider* other)
 	return false;
 }
 
+/* 林夸 面倒 贸府 窃荐 */
 bool Collider::CheckCollisionBox2Box(BoxCollider* b1, BoxCollider* b2)
 {
+	RECT r1 = b1->GetRect();
+	RECT r2 = b2->GetRect();
+
+	RECT intersect = {};
+	return ::IntersectRect(&intersect, &r1, &r2);
+
+	/*
 	Vec2 p1 = b1->GetOwner()->GetPos();
 	Vec2 s1 = b1->GetSize();
 
@@ -60,6 +68,7 @@ bool Collider::CheckCollisionBox2Box(BoxCollider* b1, BoxCollider* b2)
 		return false;
 
 	return true;
+	*/
 }
 
 bool Collider::CheckCollisionSphere2Box(SphereCollider* s1, BoxCollider* b2)
