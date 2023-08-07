@@ -43,6 +43,10 @@ void SphereCollider::Render(HDC hdc)
 
 bool SphereCollider::CheckCollision(Collider* other)
 {
+	// 충돌 레이어 체크 공용 코드
+	if (Super::CheckCollision(other) == false)
+		return false;
+
 	switch (other->GetColliderType())
 	{
 	case ColliderType::Box:

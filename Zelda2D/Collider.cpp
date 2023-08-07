@@ -26,7 +26,11 @@ void Collider::Render(HDC hdc)
 
 bool Collider::CheckCollision(Collider* other)
 {
-	return false;
+	uint32 layer = other->GetCollisionLayerType();
+	if (_collisionFlag & (1 << layer))
+		return true; // 위 조건이 0 이 아닐 때 true
+	
+	return false; // 위 조건이 0 일 때 충돌 안되므로 false
 }
 
 /* 주요 충돌 처리 함수 */
@@ -73,6 +77,7 @@ bool Collider::CheckCollisionBox2Box(BoxCollider* b1, BoxCollider* b2)
 
 bool Collider::CheckCollisionSphere2Box(SphereCollider* s1, BoxCollider* b2)
 {
+
 	return false;
 }
 
@@ -88,4 +93,14 @@ bool Collider::CheckCollisionSphere2Sphere(SphereCollider* s1, SphereCollider* s
 	float dist = dir.Length();
 
 	return dist <= r1 + r2;
+}
+
+void Collider::AddCollisionFlagLayer(COLLISION_LAYER_TYPE layer)
+{
+	_collisionFlag |= (1 << layer);
+}
+
+void Collider::RemoveCollisionFlagLayer(COLLISION_LAYER_TYPE layer)
+{
+	_collisionFlag &= ~(1 << layer);
 }

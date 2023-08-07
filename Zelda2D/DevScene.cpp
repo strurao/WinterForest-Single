@@ -91,6 +91,11 @@ void DevScene::Init()
 
 			BoxCollider* collider = new BoxCollider();
 			collider->SetSize({ 100,100 });
+			
+			collider->SetCollisionLayer(CLT_OBJECT);
+			collider->ResetCollisionFlag(); // reset
+			collider->AddCollisionFlagLayer(CLT_GROUND);
+			// collider->AddCollisionFlagLayer(CLT_OBJECT);
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
 			player->AddComponent(collider);
 
@@ -108,6 +113,42 @@ void DevScene::Init()
 			test->SetPos({ 300,200 });
 			BoxCollider* collider = new BoxCollider();
 			collider->SetSize({ 100,100 });
+
+			/*
+			충돌 레이어
+			bit flag 연산자 : << >> & | ~
+			헷갈린다면 계산기를 키고 그림을 그리기
+			
+			uint32 flag = 26; 
+			// 특정 비트 켜기
+			flag = flag | (1 << CLT_WALL); 
+			// 특정 비트 끄기
+			flag = flag & ~(1 << CLT_WALL); 
+			// 특정 비트 체크
+			bool ret = flag & (1 << CLT_WALL);
+			// 전체 켜기
+			flag = ~0; 
+			*/
+
+			collider->SetCollisionLayer(CLT_OBJECT);
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			test->AddComponent(collider);
+
+			AddActor(test);
+			//*/
+		}
+
+		{
+			///* 충돌 기능 테스트 
+			Actor* test = new Actor();
+			test->SetLayer(LAYER_OBJECT);
+
+			test->SetPos({ 200,400 });
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 10000,100 });
+
+			collider->SetCollisionLayer(CLT_GROUND);
+			//collider->SetCollisionFlag(1 << CLT_WALL);
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
 			test->AddComponent(collider);
 

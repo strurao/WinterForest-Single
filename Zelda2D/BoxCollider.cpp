@@ -40,6 +40,10 @@ void BoxCollider::Render(HDC hdc)
 
 bool BoxCollider::CheckCollision(Collider* other)
 {
+	// 충돌 레이어 체크 공용 코드
+	if (Super::CheckCollision(other) == false)
+		return false;
+
 	switch (other->GetColliderType())
 	{
 	case ColliderType::Box:

@@ -55,7 +55,10 @@ void Player::Tick()
 		_pos.x += 200 * deltaTime;
 		SetFlipbook(_flipbookRight);
 	}
-	
+	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
+	{
+		Jump();
+	}
 
 }
 
@@ -80,6 +83,10 @@ void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
 
 }
 
+void Player::Jump()
+{
+}
+
 void Player::TickGravity()
 {
 
@@ -98,7 +105,8 @@ void Player::AdjustCollisionPos(BoxCollider* b1, BoxCollider* b2)
 		int32 w = intersect.right - intersect.left;
 		int32 h = intersect.bottom - intersect.top;
 
-		if (w > h) {
+		if (w > h) 
+		{
 			if (intersect.top == r2.top)
 			{
 				pos.y -= h; // 위로 밀쳐내기

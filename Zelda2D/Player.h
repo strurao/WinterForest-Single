@@ -19,8 +19,8 @@ public:
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
 private:
+	void Jump();
 	void TickGravity();
-
 	/* 
 	내가 충돌한 만큼 뒤로 밀쳐내서 복원 보정.
 	b1 이 나, b2 가 상대방.
@@ -32,5 +32,9 @@ private:
 	Flipbook* _flipbookDown = nullptr;
 	Flipbook* _flipbookLeft = nullptr;
 	Flipbook* _flipbookRight = nullptr;
+
+private:
+	// int32 _gravity = 1000;
+
 };
 
