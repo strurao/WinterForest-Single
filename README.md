@@ -12,5 +12,8 @@ Collision
 Applied the life cycle
 - for Physics
 
+State Pattern
 Let's think about everything based on __**Status**__ to prevent spaghetti code and boolean hard work
+
+
 ![image](https://github.com/strurao/Zelda/assets/126440235/7a0fd980-f1bc-474b-bae0-b2076045c7b5)
