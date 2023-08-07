@@ -12,6 +12,16 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	for (const vector<Actor*>& actors : _actors)
+		for (Actor* actor : actors)
+			SAFE_DELETE(actor);
+
+	_actors->clear();
+
+	for (UI* ui : _uis)
+		SAFE_DELETE(ui);
+
+	_uis.clear();
 }
 
 void Scene::Init()
@@ -26,6 +36,8 @@ void Scene::Init()
 
 void Scene::Update()
 {
+	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+
 	GET_SINGLE(CollisionManager)->Update();
 
 	for (const vector<Actor*>& actors : _actors)
@@ -60,9 +72,14 @@ void Scene::RemoveActor(Actor* actor)
 		return;
 
 	vector<Actor*>& v = _actors[actor->GetLayer()];
+	v.erase(std::remove(v.begin(), v.end(), actor), v.end());
+
+	/*
 	auto findIt = std::find(v.begin(), v.end(), actor);
 	if (findIt == v.end())
 		return;
 
 	v.erase(findIt);
+	*/
+	
 }

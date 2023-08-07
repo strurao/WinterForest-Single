@@ -37,7 +37,7 @@ namespace fs = std::filesystem;
 #pragma comment(lib, "msimg32.lib")
 
 // Sound
-#include <mmsystem.h>
+#include <MMSystem.h>
 #include <dsound.h>
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "dsound.lib")

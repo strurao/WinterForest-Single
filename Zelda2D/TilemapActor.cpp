@@ -25,7 +25,7 @@ void TilemapActor::Tick()
 {
 	Super::Tick();
 
-	TilePicking();
+	// TilePicking();
 }
 
 void TilemapActor::Render(HDC hdc)

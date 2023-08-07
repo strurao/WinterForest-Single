@@ -81,7 +81,8 @@ struct Vector
 	void Normalize()
 	{
 		float length = Length();
-		if (length < 0.00000f) return;
+		if (length < 0.00000000001f) 
+			return;
 
 		x /= length;
 		y /= length;
@@ -144,6 +145,16 @@ struct VectorInt
 	{
 		x -= other.x;
 		y -= other.y;
+	}
+
+	int32 LengthSquared()
+	{
+		return x * x + y * y;
+	}
+
+	float Length()
+	{
+		return (float)::sqrt(LengthSquared());
 	}
 
 	// Dot_product ³»Àû 

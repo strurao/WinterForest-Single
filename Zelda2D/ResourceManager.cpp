@@ -44,9 +44,14 @@ void ResourceManager::Clear()
 		SAFE_DELETE(item.second);
 
 	_tilemaps.clear();
+
+	for (auto& item : _sounds)
+		SAFE_DELETE(item.second);
+
+	_sounds.clear();
 }
 
-Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path, uint32 transparent)
+Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path, uint32 transparent /*= RGB(255, 0, 255)*/)
 {
 	if (_textures.find(key) != _textures.end())
 		return _textures[key];
@@ -111,6 +116,7 @@ void ResourceManager::SaveTilemap(const wstring& key, const wstring& path)
 Tilemap* ResourceManager::LoadTilemap(const wstring& key, const wstring& path)
 {
 	Tilemap* tm = nullptr;
+
 	if (_tilemaps.find(key) == _tilemaps.end())
 		_tilemaps[key] = new Tilemap();
 

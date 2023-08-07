@@ -35,6 +35,7 @@ void Tilemap::LoadFile(const wstring& path)
 			}
 		}
 		::fclose(file);
+		return;
 	}
 
 	// C++ 스타일
@@ -84,6 +85,7 @@ void Tilemap::SaveFile(const wstring& path)
 			}
 		}
 		::fclose(file);
+		return;
 	}
 
 	// C++ 스타일

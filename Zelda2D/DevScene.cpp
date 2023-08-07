@@ -30,8 +30,10 @@ DevScene::~DevScene()
 
 void DevScene::Init()
 {
+	//GET_SINGLE(ResourceManager)->LoadTexture(L"BG", L"Sprite\\BG.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Stage01", L"Sprite\\Map\\Stage01.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Tile", L"Sprite\\Map\\Tile.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Sword", L"Sprite\\Item\\Sword.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Potion", L"Sprite\\UI\\Mp.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDown", L"Sprite\\Player\\PlayerDown.bmp", RGB(128, 128, 128));
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerUp", L"Sprite\\Player\\PlayerUp.bmp", RGB(128, 128, 128));
@@ -44,33 +46,75 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Stage01", GET_SINGLE(ResourceManager)->GetTexture(L"Stage01"));
 	GET_SINGLE(ResourceManager)->CreateSprite(L"TileO", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 0, 0, 48, 48);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"TileX", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 48, 0, 48, 48);
-
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 0, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_On", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 150, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Edit_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Edit"), 0, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Edit_On", GET_SINGLE(ResourceManager)->GetTexture(L"Edit"), 150, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 0, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_On", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 150, 0, 150, 150);
-
+	
+	// IDLE
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerUp");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleUp");
+		fb->SetInfo({ texture, L"FB_MoveUp", {200, 200}, 0, 9, 0, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerDown");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleDown");
+		fb->SetInfo({ texture, L"FB_MoveDown", {200, 200}, 0, 9, 0, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerLeft");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleLeft");
+		fb->SetInfo({ texture, L"FB_MoveLeft", {200, 200}, 0, 9, 0, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerRight");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleRight");
+		fb->SetInfo({ texture, L"FB_MoveRight", {200, 200}, 0, 9, 0, 0.5f });
+	}
+	// MOVE
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerUp");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveUp");
-		fb->SetInfo({ texture, L"FB_MoveUp", {200, 200}, 0,9,1,0.5f });
+		fb->SetInfo({ texture, L"FB_MoveUp", {200, 200}, 0, 9, 1, 0.5f });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerDown");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveDown");
-		fb->SetInfo({ texture, L"FB_MoveDown", {200, 200}, 0,9,1,0.5f });
+		fb->SetInfo({ texture, L"FB_MoveDown", {200, 200}, 0, 9, 1, 0.5f });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerLeft");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveLeft");
-		fb->SetInfo({ texture, L"FB_MoveLeft", {200, 200}, 0,9,1,0.5f });
+		fb->SetInfo({ texture, L"FB_MoveLeft", {200, 200}, 0, 9, 1, 0.5f });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerRight");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight");
-		fb->SetInfo({ texture, L"FB_MoveRight", {200, 200}, 0,9,1,0.5f });
+		fb->SetInfo({ texture, L"FB_MoveRight", {200, 200}, 0, 9, 1, 0.5f });
+	}
+	// SKILL
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerUp");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_AttackUp");
+		fb->SetInfo({ texture, L"FB_MoveUp", {200, 200}, 0, 7, 3, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerDown");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_AttackDown");
+		fb->SetInfo({ texture, L"FB_MoveDown", {200, 200}, 0, 7, 3, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerLeft");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_AttackLeft");
+		fb->SetInfo({ texture, L"FB_MoveLeft", {200, 200}, 0, 7, 3, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerRight");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_AttackRight");
+		fb->SetInfo({ texture, L"FB_MoveRight", {200, 200}, 0, 7, 3, 0.5f });
 	}
 
 	{
@@ -84,9 +128,9 @@ void DevScene::Init()
 	}
 
 	{
-		{
-			///* 충돌 기능 
-			Player* player = new Player();
+		
+		Player* player = new Player();
+			/*
 			player->SetPos({ 100,100 });
 
 			BoxCollider* collider = new BoxCollider();
@@ -98,15 +142,15 @@ void DevScene::Init()
 			// collider->AddCollisionFlagLayer(CLT_OBJECT);
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
 			player->AddComponent(collider);
-
-			AddActor(player);
-			//*/
-		}
+			*/
+		AddActor(player);
+		
 	}
 
 	{
 		{
-			///* 충돌 기능 테스트 
+			/* 
+			충돌 기능 테스트 
 			Actor* test = new Actor();
 			test->SetLayer(LAYER_OBJECT);
 
@@ -114,7 +158,7 @@ void DevScene::Init()
 			BoxCollider* collider = new BoxCollider();
 			collider->SetSize({ 100,100 });
 
-			/*
+			////
 			충돌 레이어
 			bit flag 연산자 : << >> & | ~
 			헷갈린다면 계산기를 키고 그림을 그리기
@@ -128,18 +172,18 @@ void DevScene::Init()
 			bool ret = flag & (1 << CLT_WALL);
 			// 전체 켜기
 			flag = ~0; 
-			*/
+			////
 
 			collider->SetCollisionLayer(CLT_OBJECT);
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
 			test->AddComponent(collider);
 
 			AddActor(test);
-			//*/
+			*/
 		}
 
 		{
-			///* 충돌 기능 테스트 
+			/* 충돌 기능 테스트 
 			Actor* test = new Actor();
 			test->SetLayer(LAYER_OBJECT);
 
@@ -153,7 +197,7 @@ void DevScene::Init()
 			test->AddComponent(collider);
 
 			AddActor(test);
-			//*/
+			*/
 		}
 	}
 
@@ -166,8 +210,10 @@ void DevScene::Init()
 			tm->SetMapSize({ 63, 43 });
 			tm->SetTileSize(48);
 
+			GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_01", L"Tilemap\\Tilemap_01.txt");
+
 			_tilemapActor->SetTilemap(tm);
-			// _tilemapActor->SetShowDebug(true);
+			_tilemapActor->SetShowDebug(false);
 		}
 
 	}
@@ -175,11 +221,12 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
 	{
 		Sound* sound = GET_SINGLE(ResourceManager)->GetSound(L"BGM");
-		// sound->Play(true);
+		sound->Play(true);
 
 		// GET_SINGLE(SoundManager)->Play(L"BGM");
 	}
 
+	GET_SINGLE(ResourceManager)->LoadSound(L"Attack", L"Sound\\Sword.wav");
 
 	Super::Init();
 }
@@ -190,6 +237,7 @@ void DevScene::Update()
 
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
+	/*
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Q))
 	{
 		GET_SINGLE(ResourceManager)->SaveTilemap(L"Tilemap_01", L"Tilemap\\Tilemap01.txt");
@@ -198,11 +246,48 @@ void DevScene::Update()
 	{
 		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_01", L"Tilemap\\Tilemap01.txt");
 	}
+	*/
 }
 
 void DevScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
+}
+
+bool DevScene::CanGo(Vec2Int cellPos)
+{
+	if (_tilemapActor == nullptr)
+		return false;
+
+	Tilemap* tm = _tilemapActor->GetTilemap();
+	if (tm == nullptr)
+		return false;
+
+	Tile* tile = tm->GetTileAt(cellPos);
+	if (tile == nullptr)
+		return false;
+
+	return tile->value != 1; // 1은 벽이므로
+}
+
+Vec2 DevScene::ConvertPos(Vec2Int cellPos)
+{
+	Vec2 ret = {};
+
+	if (_tilemapActor == nullptr)
+		return ret;
+
+	Tilemap* tm = _tilemapActor->GetTilemap();
+	if (tm == nullptr)
+		return ret;
+
+	int32 size = tm->GetTileSize();
+	Vec2 pos = _tilemapActor->GetPos();
+
+	ret.x = pos.x + cellPos.x * size + (size / 2);
+	ret.y = pos.y + cellPos.y * size + (size / 2);
+
+	return ret;
 }
 
 

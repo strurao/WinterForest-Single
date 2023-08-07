@@ -6,7 +6,7 @@ class Sprite;
 enum ButtonState
 {
 	BS_Default,
-	BS_Hovered,
+	// BS_Hovered,
 	BS_Pressed,
 	BS_Clicked,
 
@@ -32,7 +32,7 @@ public:
 	void SetSprite(Sprite* sprite, ButtonState state) { _sprites[state] = sprite; }
 	void SetButtonState(ButtonState state);
 
-	void OnClickButton() {}
+	// void OnClickButton() {}
 
 protected:
 	Sprite* _currentSprite = nullptr;

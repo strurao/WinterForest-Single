@@ -7,14 +7,6 @@ struct Tile
 	int32 value = 0;
 };
 
-enum TILE_SIZE
-{
-	TILE_WIDTH = 63,
-	TILE_HEIGHT = 43,
-	TILE_SIZEX = 48,
-	TILE_SIZEY = 48
-};
-
 class Tilemap : public ResourceBase
 {
 public:
@@ -34,7 +26,7 @@ public:
 
 private:
 	Vec2Int _mapSize = {};
-	int32 _tileSize = 0;
+	int32 _tileSize = {};
 	vector<vector<Tile>> _tiles; // _tiles[y][x]
 };
 

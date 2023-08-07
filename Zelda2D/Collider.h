@@ -36,6 +36,7 @@ public:
 	void AddCollisionFlagLayer(COLLISION_LAYER_TYPE layer); 
 	/* 특정 아이와 충돌안하겠다 */
 	void RemoveCollisionFlagLayer(COLLISION_LAYER_TYPE layer); 
+
 protected:
 	ColliderType _colliderType;
 	bool _showDebug = true;

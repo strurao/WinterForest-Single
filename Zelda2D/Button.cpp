@@ -16,12 +16,12 @@ void Button::BeginPlay()
 {
 	Super::BeginPlay();
 	SetButtonState(BS_Default);
-	AddOnClickDelegate(this, &Button::OnClickButton);
+	// AddOnClickDelegate(this, &Button::OnClickButton);
 }
 
 void Button::Tick()
 {
-	Super::Tick();
+	// Super::Tick();
 	POINT mousePos = GET_SINGLE(InputManager)->GetMousePos();
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 

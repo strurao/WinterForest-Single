@@ -29,3 +29,11 @@ enum COLLISION_LAYER_TYPE
 	CLT_WALL,
 
 };
+
+enum Dir
+{
+	DIR_UP,
+	DIR_DOWN,
+	DIR_LEFT,
+	DIR_RIGHT,
+};

@@ -14,4 +14,7 @@ public:
 
 	static void DrawLine(HDC hdc, Pos from, Pos to);
 
+	static void DrawLineColored(HDC hdc, Pos from, Pos to, COLORREF color);
+
+	static void ReadBmp(const wstring& path);
 };

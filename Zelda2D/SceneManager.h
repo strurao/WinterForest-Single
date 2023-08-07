@@ -1,5 +1,6 @@
 #pragma once
 class Scene;
+
 class SceneManager
 {
 	DECLARE_SINGLE(SceneManager)
