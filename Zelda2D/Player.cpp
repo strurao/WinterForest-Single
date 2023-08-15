@@ -224,7 +224,7 @@ void Player::UpdateAnimation()
 bool Player::HasReachedDest()
 {
 	Vec2 dir = (_destPos - _pos);
-	return (dir.Length() < 10.f);
+	return (dir.Length() < 5.f);
 }
 
 bool Player::CanGo(Vec2Int cellPos)
