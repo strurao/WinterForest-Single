@@ -5,12 +5,7 @@ class Flipbook;
 class Collider;
 class BoxCollider;
 
-enum class PlayerState
-{
-	Idle,
-	Move,
-	Skill
-};
+
 
 class Player : public FlipbookActor
 {
@@ -27,14 +22,14 @@ public:
 	// virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
 	// virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
-	PlayerState GetState() { return _state; }
+	ObjectState GetState() { return _state; }
 
 private:
 	virtual void TickIdle();
 	virtual void TickMove();
 	virtual void TickSkill();
 
-	void SetState(PlayerState state);
+	void SetState(ObjectState state);
 	void SetDir(Dir dir);
 
 	void UpdateAnimation();
@@ -59,6 +54,6 @@ private:
 	Vec2Int _cellPos = {};
 	Vec2 _speed = {};
 	Dir _dir = DIR_DOWN;
-	PlayerState _state = PlayerState::Idle;
+	ObjectState _state = ObjectState::Idle;
 	bool _keyPressed = false;
 };

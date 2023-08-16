@@ -37,3 +37,17 @@ enum Dir
 	DIR_LEFT,
 	DIR_RIGHT,
 };
+
+enum class ObjectState
+{
+	Idle,
+	Move,
+	Skill
+};
+
+enum class WeaponType
+{
+	Sword,
+	Bow,
+	Staff
+};
