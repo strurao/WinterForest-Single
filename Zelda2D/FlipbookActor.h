@@ -18,6 +18,8 @@ public:
 	void SetFlipbook(Flipbook* flipbook);
 	void Reset();
 
+	bool IsAnimationEnded();
+
 protected:
 	Flipbook* _flipbook = nullptr;
 	float _sumTime = 0.f;

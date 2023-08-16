@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Actor.h"
+#include "Creature.h"
 #include "UI.h"
 #include "TimeManager.h"
 #include "SceneManager.h"
@@ -50,6 +51,11 @@ void Scene::Update()
 
 void Scene::Render(HDC hdc)
 {
+	vector<Actor*>& actors = _actors[LAYER_OBJECT];
+	std::sort(actors.begin(), actors.end(), [=](Actor* a, Actor* b) {
+		return a->GetPos().y < b->GetPos().y;
+	});
+
 	for (const vector<Actor*>& actors : _actors)
 		for (Actor* actor : actors)
 			actor->Render(hdc);
@@ -82,4 +88,16 @@ void Scene::RemoveActor(Actor* actor)
 	v.erase(findIt);
 	*/
 	
+}
+
+Creature* Scene::GetCreatureAt(Vec2Int cellPos)
+{
+	for (Actor* actor : _actors[LAYER_OBJECT])
+	{
+		Creature* creature = dynamic_cast<Creature*>(actor);
+		if (creature && creature->GetCellPos() == cellPos)
+			return creature;
+	}
+
+	return nullptr;
 }
