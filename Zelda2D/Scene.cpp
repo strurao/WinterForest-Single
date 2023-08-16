@@ -41,7 +41,8 @@ void Scene::Update()
 
 	GET_SINGLE(CollisionManager)->Update();
 
-	for (const vector<Actor*>& actors : _actors)
+	// บนป็
+	for (const vector<Actor*> actors : _actors)
 		for (Actor* actor : actors)
 			actor->Tick();
 

@@ -87,6 +87,7 @@ void DevScene::Update()
 
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
+	TickMonsterSpawn();
 	/*
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Q))
 	{
@@ -102,6 +103,28 @@ void DevScene::Update()
 void DevScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
+}
+
+void DevScene::AddActor(Actor* actor)
+{
+	Super::AddActor(actor);
+
+	Monster* monster = dynamic_cast<Monster*>(actor);
+	if (monster)
+	{
+		_monsterCount++;
+	}
+}
+
+void DevScene::RemoveActor(Actor* actor)
+{
+	Super::RemoveActor(actor);
+
+	Monster* monster = dynamic_cast<Monster*>(actor);
+	if (monster)
+	{
+		_monsterCount--;
+	}
 }
 
 void DevScene::LoadMap()
@@ -342,6 +365,35 @@ Vec2 DevScene::ConvertPos(Vec2Int cellPos)
 	ret.y = pos.y + cellPos.y * size + (size / 2);
 
 	return ret;
+}
+
+Vec2Int DevScene::GetRandomEmptyCellPos()
+{
+	Vec2Int ret = { -1,-1 };
+	if (_tilemapActor == nullptr)
+		return ret;
+
+	Tilemap* tm = _tilemapActor->GetTilemap();
+	if (tm == nullptr)
+		return ret;
+
+	Vec2Int size = tm->GetMapSize();
+
+	while (true)
+	{
+		int32 x = rand() % size.x;
+		int32 y = rand() % size.y;
+		Vec2Int cellPos{ x,y };
+
+		if (CanGo(cellPos))
+			return cellPos;
+	}
+}
+
+void DevScene::TickMonsterSpawn()
+{
+	if (_monsterCount < DESIRED_MONSTER_COUNT)
+		SpawnObjectAtRandomPos<Monster>();
 }
 
 
