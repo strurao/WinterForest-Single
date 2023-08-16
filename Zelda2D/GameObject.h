@@ -13,21 +13,21 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 	
-private:
+protected:
 	virtual void TickIdle() {}
 	virtual void TickMove() {}
 	virtual void TickSkill() {}
+	virtual void UpdateAnimation() {}
 
+public:
 	void SetState(ObjectState state);
 	void SetDir(Dir dir);
-
-	virtual void UpdateAnimation() {}
 
 	bool HasReachedDest();
 	bool CanGo(Vec2Int cellPos);
 	void SetCellPos(Vec2Int cellPos, bool teleport = false);
 
-private:
+protected:
 	Vec2Int _cellPos = {};
 	Vec2 _speed = {};
 	Dir _dir = DIR_DOWN;
