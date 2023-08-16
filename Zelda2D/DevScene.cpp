@@ -33,6 +33,8 @@ void DevScene::Init()
 {
 	//GET_SINGLE(ResourceManager)->LoadTexture(L"BG", L"Sprite\\BG.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Stage01", L"Sprite\\Map\\Stage01.bmp");
+	//GET_SINGLE(ResourceManager)->LoadTexture(L"Stage02", L"Sprite\\Map\\Stage02.bmp");
+
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Tile", L"Sprite\\Map\\Tile.bmp", RGB(128, 128, 128));
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Sword", L"Sprite\\Item\\Sword.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Potion", L"Sprite\\UI\\Mp.bmp");
@@ -49,6 +51,8 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Exit", L"Sprite\\UI\\Exit.bmp");
 
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Stage01", GET_SINGLE(ResourceManager)->GetTexture(L"Stage01"));
+	//GET_SINGLE(ResourceManager)->CreateSprite(L"Stage02", GET_SINGLE(ResourceManager)->GetTexture(L"Stage02"));
+
 	GET_SINGLE(ResourceManager)->CreateSprite(L"TileO", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 0, 0, 48, 48);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"TileX", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 48, 0, 48, 48);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 0, 0, 150, 150);
@@ -130,6 +134,8 @@ void DevScene::RemoveActor(Actor* actor)
 void DevScene::LoadMap()
 {
 	Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage01");
+	//Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage02");
+
 	SpriteActor* background = new SpriteActor();
 	background->SetSprite(sprite);
 	background->SetLayer(LAYER_BACKGROUND);
@@ -326,6 +332,90 @@ void DevScene::LoadTilemap()
 		_tilemapActor->SetShowDebug(false);
 	}
 }
+
+//bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 maxDepth)
+//{
+//	priority_queue<PQNode,vector<PQNode>, greater<PQNode>> pq;
+//	map<Vec2Int, int32> best;
+//	map<Vec2Int, Vec2Int> parent;
+//
+//	//초기값
+//	{
+//		int32 cost = abs(dest.y - src.y) + abs(dest.x - src.x);
+//
+//		pq.push(PQNode(cost, src));
+//		best[src] = cost;
+//		parent[src] = src;
+//	}
+//
+//	Vec2Int front[4] =
+//	{
+//		{0,-1},
+//		{0,1},
+//		{-1,0},
+//		{1,0}
+//	};
+//
+//	bool found = false;
+//
+//	while (pq.empty() == false)
+//	{
+//		// 제일 좋은 후보를 찾는다
+//		PQNode node = pq.top();
+//		pq.pop();
+//		// 더 짧은 경로를 뒤늦게 찾았다면 스킵
+//		if (best[node.pos] < node.cost)
+//			continue;
+//		// 목적지에 도착했으면 바로 종료
+//		if (node.pos == dest)
+//		{
+//			found = true;
+//			break;
+//		}
+//		// 방문
+//		for (int32 dir = 0; dir < 4; dir++)
+//		{
+//			Vec2Int nextPos = node.pos + front[dir];
+//
+//			if (CanGo(nextPos) == false)
+//				continue;
+//
+//			int32 cost = abs(dest.y - src.y) + abs(dest.x - src.x);
+//			int32 bestCost = best[nextPos];
+//			if (bestCost != 0)
+//			{
+//				// 다른 경로에서 더 빠른 길을 찾았으면 스킵
+//				if (bestCost <= cost)
+//					continue;
+//			}
+//
+//			// 예약 진행
+//			best[nextPos] = cost;
+//			pq.push(PQNode(cost, nextPos));
+//			parent[nextPos] = node.pos;
+//		}
+//	}
+//
+//	if (found == false)
+//	{
+//		// TODO
+//	}
+//
+//	path.clear();
+//	Vec2Int pos = dest;
+//
+//	while (true)
+//	{
+//		path.push_back(pos);
+//
+//		// 시작점
+//		if (pos == parent[pos])
+//			break;
+//
+//		pos = parent[pos];
+//	}
+//	std::reverse(path.begin(), path.end());
+//}
 
 bool DevScene::CanGo(Vec2Int cellPos)
 {

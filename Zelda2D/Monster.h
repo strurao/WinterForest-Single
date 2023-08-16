@@ -18,6 +18,7 @@ private:
 	virtual void TickMove() override;
 	virtual void TickSkill() override;
 	virtual void UpdateAnimation() override;
+	virtual void OnDamaged(Creature* attacker) override;
 
 protected:
 	Flipbook* _flipbookMove[4] = {};

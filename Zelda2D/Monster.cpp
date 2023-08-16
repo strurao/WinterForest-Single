@@ -58,3 +58,13 @@ void Monster::UpdateAnimation()
 {
 	SetFlipbook(_flipbookMove[_dir]);
 }
+
+void Monster::OnDamaged(Creature* attacker)
+{
+	Super::OnDamaged(attacker);
+
+	if (_state == ObjectState::Idle)
+	{
+		SetState(ObjectState::Move);
+	}
+}
