@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-#include <Windows.h>
+#include <windows.h>
 
 using int8 = __int8;
 using int16 = __int16;
@@ -11,20 +11,12 @@ using uint16 = unsigned __int16;
 using uint32 = unsigned __int32;
 using uint64 = unsigned __int64;
 
-struct Stat
-{
-	int32 hp = 0;
-	int32 maxHp = 0;
-	int32 attack = 0;
-	int32 defence = 0;
-	float speed = 0;
-};
 
 struct Vector
 {
 	Vector() {}
 	Vector(float x, float y) : x(x), y(y) {}
-	Vector(POINT pt) : x((float)pt.x), y((float)pt.y) {}
+	Vector(POINT pt) : x((float)pt.x), y((float)pt.y) { }
 
 	Vector operator+(const Vector& other)
 	{
@@ -62,10 +54,10 @@ struct Vector
 		y -= other.y;
 	}
 
-	void operator*=(float value)
+	void operator*=(float ratio)
 	{
-		x *= value;
-		y *= value;
+		x *= ratio;
+		y *= ratio;
 	}
 
 	float LengthSquared()
@@ -73,34 +65,29 @@ struct Vector
 		return x * x + y * y;
 	}
 
-	// Magnitude 벡터의 크기
 	float Length()
 	{
 		return ::sqrt(LengthSquared());
 	}
 
-	// Normalize 단위벡터 (정규화)
 	void Normalize()
 	{
 		float length = Length();
-		if (length < 0.00000000001f) 
+		if (length < 0.00000000001f)
 			return;
 
 		x /= length;
 		y /= length;
 	}
 
-	// Dot_product 내적 
 	float Dot(Vector other)
 	{
 		return x * other.x + y * other.y;
 	}
 
-	// Cross_product 외적
 	float Cross(Vector other)
 	{
-		// 일단 우리가 임의로 한 쪽 방향으로 정해주면 반대 방향이 음수로 나올 것.
-		return x * other.y - y * other.x; // vector k
+		return x * other.y - y * other.x;
 	}
 
 	float x = 0;
@@ -111,7 +98,7 @@ struct VectorInt
 {
 	VectorInt() {}
 	VectorInt(int32 x, int32 y) : x(x), y(y) {}
-	VectorInt(POINT pt) : x((int32)pt.x), y((int32)pt.y) {}
+	VectorInt(POINT pt) : x(pt.x), y(pt.y) { }
 
 	VectorInt operator+(const VectorInt& other)
 	{
@@ -129,24 +116,12 @@ struct VectorInt
 		return ret;
 	}
 
-	VectorInt operator*(float value)
+	VectorInt operator*(int32 value)
 	{
 		VectorInt ret;
 		ret.x = x * value;
 		ret.y = y * value;
 		return ret;
-	}
-
-	void operator+=(const VectorInt& other)
-	{
-		x += other.x;
-		y += other.y;
-	}
-
-	void operator-=(const VectorInt& other)
-	{
-		x -= other.x;
-		y -= other.y;
 	}
 
 	bool operator<(const VectorInt& other) const
@@ -170,9 +145,16 @@ struct VectorInt
 		return x == other.x && y == other.y;
 	}
 
-	bool operator!=(const VectorInt& other)
+	void operator+=(const VectorInt& other)
 	{
-		return !(*this == other);
+		x += other.x;
+		y += other.y;
+	}
+
+	void operator-=(const VectorInt& other)
+	{
+		x -= other.x;
+		y -= other.y;
 	}
 
 	int32 LengthSquared()
@@ -185,17 +167,14 @@ struct VectorInt
 		return (float)::sqrt(LengthSquared());
 	}
 
-	// Dot_product 내적 
-	float Dot(VectorInt other)
+	int32 Dot(VectorInt other)
 	{
 		return x * other.x + y * other.y;
 	}
 
-	// Cross_product 외적
-	float Cross(VectorInt other)
+	int32 Cross(VectorInt other)
 	{
-		// 일단 우리가 임의로 한 쪽 방향으로 정해주면 반대 방향이 음수로 나올 것.
-		return x * other.y - y * other.x; // vector k
+		return x * other.y - y * other.x;
 	}
 
 	int32 x = 0;

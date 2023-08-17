@@ -5,9 +5,9 @@
 #include "ResourceManager.h"
 #include "Flipbook.h"
 #include "CameraComponent.h"
-#include "BoxCollider.h"
 #include "SceneManager.h"
 #include "DevScene.h"
+#include "Arrow.h"
 #include "HitEffect.h"
 
 Player::Player()
@@ -39,14 +39,13 @@ Player::Player()
 
 	CameraComponent* camera = new CameraComponent();
 	AddComponent(camera);
-	_stat.hp = 100;
-	_stat.maxHp = 100;
-	_stat.attack = 30;
-	_stat.defence = 5;
+
+	_stat.attack = 100;
 }
 
 Player::~Player()
 {
+
 }
 
 void Player::BeginPlay()
@@ -62,19 +61,6 @@ void Player::BeginPlay()
 void Player::Tick()
 {
 	Super::Tick();
-
-	switch (_state)
-	{
-		case ObjectState::Idle:
-			TickIdle();
-			break;
-		case ObjectState::Move:
-			TickMove();
-			break;
-		case ObjectState::Skill:
-			TickSkill();
-			break;
-	}
 }
 
 void Player::Render(HDC hdc)
@@ -88,7 +74,7 @@ void Player::TickIdle()
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
 	_keyPressed = true;
-	Vec2Int deltaXY[4] = { {0,-1}, {0,1}, {-1,0}, {1,0} }; // UP DOWN LEFT RIGHT ¼ø
+	Vec2Int deltaXY[4] = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
 
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::W))
 	{
@@ -101,7 +87,7 @@ void Player::TickIdle()
 			SetState(ObjectState::Move);
 		}
 	}
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::S))
+	else  if (GET_SINGLE(InputManager)->GetButton(KeyType::S))
 	{
 		SetDir(DIR_DOWN);
 
@@ -163,7 +149,7 @@ void Player::TickMove()
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
 	Vec2 dir = (_destPos - _pos);
-	if (dir.Length() < 10.f)
+	if (dir.Length() < 5.f)
 	{
 		SetState(ObjectState::Idle);
 		_pos = _destPos;
@@ -193,9 +179,9 @@ void Player::TickSkill()
 	if (_flipbook == nullptr)
 		return;
 
+	// TODO : Damage?
 	if (IsAnimationEnded())
 	{
-		// TODO : Damage
 		DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetCurrentScene());
 		if (scene == nullptr)
 			return;
@@ -209,11 +195,12 @@ void Player::TickSkill()
 				creature->OnDamaged(this);
 			}
 		}
-
 		else if (_weaponType == WeaponType::Bow)
 		{
-
+			Arrow* arrow = scene->SpawnObject<Arrow>(_cellPos);
+			arrow->SetDir(_dir);
 		}
+
 		SetState(ObjectState::Idle);
 	}
 }
@@ -222,22 +209,22 @@ void Player::UpdateAnimation()
 {
 	switch (_state)
 	{
-		case ObjectState::Idle:
-			if (_keyPressed)
-				SetFlipbook(_flipbookMove[_dir]);
-			else
-				SetFlipbook(_flipbookIdle[_dir]);
-			break;
-		case ObjectState::Move:
+	case ObjectState::Idle:
+		if (_keyPressed)
 			SetFlipbook(_flipbookMove[_dir]);
-			break;
-		case ObjectState::Skill:
-			if(_weaponType==WeaponType::Sword)
-				SetFlipbook(_flipbookAttack[_dir]);
-			else if(_weaponType==WeaponType::Bow)
-				SetFlipbook(_flipbookBow[_dir]);
-			else
-				SetFlipbook(_flipbookStaff[_dir]);
-			break;
+		else
+			SetFlipbook(_flipbookIdle[_dir]);
+		break;
+	case ObjectState::Move:
+		SetFlipbook(_flipbookMove[_dir]);
+		break;
+	case ObjectState::Skill:
+		if (_weaponType == WeaponType::Sword)
+			SetFlipbook(_flipbookAttack[_dir]);
+		else if (_weaponType == WeaponType::Bow)
+			SetFlipbook(_flipbookBow[_dir]);
+		else
+			SetFlipbook(_flipbookStaff[_dir]);
+		break;
 	}
 }

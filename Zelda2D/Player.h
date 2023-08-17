@@ -1,10 +1,15 @@
 #pragma once
+
+#include "FlipbookActor.h"
 #include "Creature.h"
+
+class Flipbook;
+class Collider;
+class BoxCollider;
 
 class Player : public Creature
 {
 	using Super = Creature;
-
 public:
 	Player();
 	virtual ~Player() override;
@@ -17,13 +22,13 @@ private:
 	virtual void TickIdle() override;
 	virtual void TickMove() override;
 	virtual void TickSkill() override;
+
 	virtual void UpdateAnimation() override;
 
 	void SetWeaponType(WeaponType weaponType) { _weaponType = weaponType; }
 	WeaponType GetWeaponType() { return _weaponType; }
 
 private:
-
 	Flipbook* _flipbookIdle[4] = {};
 	Flipbook* _flipbookMove[4] = {};
 	Flipbook* _flipbookAttack[4] = {};
@@ -33,3 +38,4 @@ private:
 	bool _keyPressed = false;
 	WeaponType _weaponType = WeaponType::Sword;
 };
+

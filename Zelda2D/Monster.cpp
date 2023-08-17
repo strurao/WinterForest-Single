@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "Monster.h"
-#include "ResourceManager.h"
 #include "InputManager.h"
 #include "TimeManager.h"
+#include "ResourceManager.h"
 #include "Flipbook.h"
+#include "CameraComponent.h"
 #include "SceneManager.h"
 #include "DevScene.h"
 #include "Player.h"
@@ -16,10 +17,6 @@ Monster::Monster()
 	_flipbookMove[DIR_LEFT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_SnakeLeft");
 	_flipbookMove[DIR_RIGHT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_SnakeRight");
 
-	_stat.hp = 50;
-	_stat.maxHp = 50;
-	_stat.attack = 10;
-	_stat.defence = 0;
 }
 
 Monster::~Monster()
@@ -30,6 +27,7 @@ Monster::~Monster()
 void Monster::BeginPlay()
 {
 	Super::BeginPlay();
+
 	SetState(ObjectState::Move);
 	SetState(ObjectState::Idle);
 }
@@ -37,11 +35,13 @@ void Monster::BeginPlay()
 void Monster::Tick()
 {
 	Super::Tick();
+
 }
 
 void Monster::Render(HDC hdc)
 {
 	Super::Render(hdc);
+
 }
 
 void Monster::TickIdle()
@@ -74,13 +74,12 @@ void Monster::TickIdle()
 					Vec2Int nextPos = path[1];
 					if (scene->CanGo(nextPos))
 					{
-						// 다음칸으로 이동
 						SetCellPos(nextPos);
 						SetState(ObjectState::Move);
 					}
 				}
 				else
-					SetCellPos(path[0]); // 혹시 길이 없었다면 해당 위치에 가만히 있기
+					SetCellPos(path[0]);
 			}
 		}
 	}
@@ -89,6 +88,7 @@ void Monster::TickIdle()
 void Monster::TickMove()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+
 	Vec2 dir = (_destPos - _pos);
 	if (dir.Length() < 5.f)
 	{
@@ -133,30 +133,23 @@ void Monster::TickSkill()
 		return;
 	}
 
-	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetCurrentScene());
-	if (scene == nullptr)
-		return;
-
-	Creature* creature = scene->GetCreatureAt(GetFrontCellPos());
-	if (creature) // 바로 내 앞에 크리쳐가 있는지?
 	{
-		scene->SpawnObject<HitEffect>(GetFrontCellPos());
-		creature->OnDamaged(this);
+		DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetCurrentScene());
+		if (scene == nullptr)
+			return;
+
+		Creature* creature = scene->GetCreatureAt(GetFrontCellPos());
+		if (creature)
+		{
+			scene->SpawnObject<HitEffect>(GetFrontCellPos());
+			creature->OnDamaged(this);
+		}
+
+		SetState(ObjectState::Idle);
 	}
-	SetState(ObjectState::Idle);
 }
 
 void Monster::UpdateAnimation()
 {
 	SetFlipbook(_flipbookMove[_dir]);
-}
-
-void Monster::OnDamaged(Creature* attacker)
-{
-	Super::OnDamaged(attacker);
-
-	if (_state == ObjectState::Idle)
-	{
-		SetState(ObjectState::Move);
-	}
 }

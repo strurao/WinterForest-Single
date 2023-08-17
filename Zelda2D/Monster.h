@@ -1,6 +1,10 @@
 #pragma once
+
 #include "Creature.h"
 
+class Flipbook;
+class Collider;
+class BoxCollider;
 class Player;
 
 class Monster : public Creature
@@ -19,12 +23,13 @@ private:
 	virtual void TickIdle() override;
 	virtual void TickMove() override;
 	virtual void TickSkill() override;
-	virtual void UpdateAnimation() override;
-	virtual void OnDamaged(Creature* attacker) override;
 
-protected:
+	virtual void UpdateAnimation() override;
+
+private:
 	Flipbook* _flipbookMove[4] = {};
 	float _waitSeconds = 0.f;
+
 	Player* _target = nullptr; // TEMP
 };
 

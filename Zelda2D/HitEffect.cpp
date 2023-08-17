@@ -7,16 +7,17 @@
 HitEffect::HitEffect()
 {
 	SetLayer(LAYER_EFFECT);
+	UpdateAnimation();
 }
 
 HitEffect::~HitEffect()
 {
+
 }
 
 void HitEffect::BeginPlay()
 {
 	Super::BeginPlay();
-	UpdateAnimation();
 }
 
 void HitEffect::Tick()
@@ -33,6 +34,7 @@ void HitEffect::Tick()
 void HitEffect::Render(HDC hdc)
 {
 	Super::Render(hdc);
+
 }
 
 void HitEffect::UpdateAnimation()

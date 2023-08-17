@@ -5,16 +5,14 @@
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "Texture.h"
-#include "Values.h"
+#include "Sprite.h"
 #include "Actor.h"
 #include "SpriteActor.h"
-#include "Sprite.h"
 #include "Player.h"
 #include "Flipbook.h"
-#include "BoxCollider.h"
-#include "SphereCollider.h"
-#include "CollisionManager.h"
 #include "UI.h"
+#include "Button.h"
+#include "TestPanel.h"
 #include "TilemapActor.h"
 #include "Tilemap.h"
 #include "SoundManager.h"
@@ -23,6 +21,7 @@
 
 DevScene::DevScene()
 {
+
 }
 
 DevScene::~DevScene()
@@ -31,28 +30,23 @@ DevScene::~DevScene()
 
 void DevScene::Init()
 {
-	//GET_SINGLE(ResourceManager)->LoadTexture(L"BG", L"Sprite\\BG.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Stage01", L"Sprite\\Map\\Stage01.bmp");
-	//GET_SINGLE(ResourceManager)->LoadTexture(L"Stage02", L"Sprite\\Map\\Stage02.bmp");
-
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Tile", L"Sprite\\Map\\Tile.bmp", RGB(128, 128, 128));
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Sword", L"Sprite\\Item\\Sword.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Arrow", L"Sprite\\Item\\Arrow.bmp", RGB(128, 128, 128));
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Potion", L"Sprite\\UI\\Mp.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDown", L"Sprite\\Player\\PlayerDown.bmp", RGB(128, 128, 128));
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerUp", L"Sprite\\Player\\PlayerUp.bmp", RGB(128, 128, 128));
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerLeft", L"Sprite\\Player\\PlayerLeft.bmp", RGB(128, 128, 128));
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerRight", L"Sprite\\Player\\PlayerRight.bmp", RGB(128, 128, 128));
-	GET_SINGLE(ResourceManager)->LoadTexture(L"Start", L"Sprite\\UI\\Start.bmp");
-	GET_SINGLE(ResourceManager)->LoadTexture(L"Snake", L"Sprite\\Monster\\Snake.bmp", RGB(128,128,128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Snake", L"Sprite\\Monster\\Snake.bmp", RGB(128, 128, 128));
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Hit", L"Sprite\\Effect\\Hit.bmp", RGB(0, 0, 0));
 
-
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Start", L"Sprite\\UI\\Start.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Edit", L"Sprite\\UI\\Edit.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Exit", L"Sprite\\UI\\Exit.bmp");
 
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Stage01", GET_SINGLE(ResourceManager)->GetTexture(L"Stage01"));
-	//GET_SINGLE(ResourceManager)->CreateSprite(L"Stage02", GET_SINGLE(ResourceManager)->GetTexture(L"Stage02"));
-
 	GET_SINGLE(ResourceManager)->CreateSprite(L"TileO", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 0, 0, 48, 48);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"TileX", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 48, 0, 48, 48);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 0, 0, 150, 150);
@@ -61,26 +55,20 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Edit_On", GET_SINGLE(ResourceManager)->GetTexture(L"Edit"), 150, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 0, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_On", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 150, 0, 150, 150);
-	
+
 	LoadMap();
 	LoadPlayer();
 	LoadMonster();
-	LoadProjectile();
+	LoadProjectiles();
 	LoadEffect();
 	LoadTilemap();
 
-	SpawnObject<Player>(Vec2Int{ 5,5 });
-	SpawnObject<Monster>(Vec2Int{ 7,7 });
+	GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
+	GET_SINGLE(ResourceManager)->LoadSound(L"Attack", L"Sound\\Sword.wav");
 
-	//GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
-	//{
-	//	Sound* sound = GET_SINGLE(ResourceManager)->GetSound(L"BGM");
-	//	sound->Play(true);
-
-	//	// GET_SINGLE(SoundManager)->Play(L"BGM");
-	//}
-
-	//GET_SINGLE(ResourceManager)->LoadSound(L"Attack", L"Sound\\Sword.wav");
+	SpawnObjectAtRandomPos<Player>();
+	//SpawnObjectAtRandomPos<Monster>();
+	SpawnObject<Monster>(Vec2Int{ 7, 7 });
 
 	Super::Init();
 }
@@ -92,31 +80,20 @@ void DevScene::Update()
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
 	TickMonsterSpawn();
-
-
-	
-	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Q))
-	{
-		GET_SINGLE(ResourceManager)->SaveTilemap(L"Tilemap_02", L"Tilemap\\Tilemap02.txt");
-	}
-	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::E))
-	{
-		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_02", L"Tilemap\\Tilemap02.txt");
-	}
-	
 }
 
 void DevScene::Render(HDC hdc)
 {
 	Super::Render(hdc);
+
 }
 
 void DevScene::AddActor(Actor* actor)
 {
 	Super::AddActor(actor);
 
-	Monster* monster = dynamic_cast<Monster*>(actor);
-	if (monster)
+	Monster* creature = dynamic_cast<Monster*>(actor);
+	if (creature)
 	{
 		_monsterCount++;
 	}
@@ -126,8 +103,8 @@ void DevScene::RemoveActor(Actor* actor)
 {
 	Super::RemoveActor(actor);
 
-	Monster* monster = dynamic_cast<Monster*>(actor);
-	if (monster)
+	Monster* creature = dynamic_cast<Monster*>(actor);
+	if (creature)
 	{
 		_monsterCount--;
 	}
@@ -136,17 +113,16 @@ void DevScene::RemoveActor(Actor* actor)
 void DevScene::LoadMap()
 {
 	Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage01");
-	//Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Stage02");
 
 	SpriteActor* background = new SpriteActor();
 	background->SetSprite(sprite);
 	background->SetLayer(LAYER_BACKGROUND);
 	const Vec2Int size = sprite->GetSize();
 	background->SetPos(Vec2(size.x / 2, size.y / 2));
+
 	AddActor(background);
 }
 
-/* 상하좌우 이동, 스킬 */
 void DevScene::LoadPlayer()
 {
 	// IDLE
@@ -212,7 +188,6 @@ void DevScene::LoadPlayer()
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_AttackRight");
 		fb->SetInfo({ texture, L"FB_MoveRight", {200, 200}, 0, 7, 3, 0.5f, false });
 	}
-
 	// BOW
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerUp");
@@ -234,28 +209,28 @@ void DevScene::LoadPlayer()
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BowRight");
 		fb->SetInfo({ texture, L"FB_BowRight", {200, 200}, 0, 7, 5, 0.5f, false });
 	}
-
 	// STAFF
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerUp");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_StaffUp");
-		fb->SetInfo({ texture, L"FB_BowUp", {200, 200}, 0, 10, 6, 0.5f, false });
+		fb->SetInfo({ texture, L"FB_StaffUp", {200, 200}, 0, 10, 6, 0.5f, false });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerDown");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_StaffDown");
-		fb->SetInfo({ texture, L"FB_BowDown", {200, 200}, 0, 10, 6, 0.5f, false });
+		fb->SetInfo({ texture, L"FB_StaffDown", {200, 200}, 0, 10, 6, 0.5f, false });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerLeft");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_StaffLeft");
-		fb->SetInfo({ texture, L"FB_BowLeft", {200, 200}, 0, 10, 6, 0.5f, false });
+		fb->SetInfo({ texture, L"FB_StaffLeft", {200, 200}, 0, 10, 6, 0.5f, false });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerRight");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_StaffRight");
-		fb->SetInfo({ texture, L"FB_BowRight", {200, 200}, 0, 10, 6, 0.5f, false });
+		fb->SetInfo({ texture, L"FB_StaffRight", {200, 200}, 0, 10, 6, 0.5f, false });
 	}
+
 }
 
 void DevScene::LoadMonster()
@@ -283,28 +258,28 @@ void DevScene::LoadMonster()
 	}
 }
 
-void DevScene::LoadProjectile()
+void DevScene::LoadProjectiles()
 {
 	// MOVE
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"Arrow");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_ArrowUp");
-		fb->SetInfo({ texture, L"FB_SnakeUp", {100, 100}, 0, 0, 3, 0.5f });
+		fb->SetInfo({ texture, L"FB_ArrowUp", {100, 100}, 0, 0, 3, 0.5f });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"Arrow");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_ArrowDown");
-		fb->SetInfo({ texture, L"FB_SnakeDown", {100, 100}, 0, 0, 0, 0.5f });
+		fb->SetInfo({ texture, L"FB_ArrowDown", {100, 100}, 0, 0, 0, 0.5f });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"Arrow");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_ArrowLeft");
-		fb->SetInfo({ texture, L"FB_SnakeLeft", {100, 100}, 0, 0, 1, 0.5f });
+		fb->SetInfo({ texture, L"FB_ArrowLeft", {100, 100}, 0, 0, 1, 0.5f });
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"Arrow");
 		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_ArrowRight");
-		fb->SetInfo({ texture, L"FB_SnakeRight", {100, 100}, 0, 0, 2, 0.5f });
+		fb->SetInfo({ texture, L"FB_ArrowRight", {100, 100}, 0, 0, 2, 0.5f });
 	}
 }
 
@@ -319,23 +294,23 @@ void DevScene::LoadEffect()
 
 void DevScene::LoadTilemap()
 {
-
 	TilemapActor* actor = new TilemapActor();
 	AddActor(actor);
+
 	_tilemapActor = actor;
 	{
-		auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_02");
+		auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_01");
 		tm->SetMapSize({ 63, 43 });
 		tm->SetTileSize(48);
 
-		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_02", L"Tilemap\\Tilemap_02.txt");
+		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_01", L"Tilemap\\Tilemap_01.txt");
 
 		_tilemapActor->SetTilemap(tm);
 		_tilemapActor->SetShowDebug(false);
 	}
 }
 
-Player* DevScene::FindClosestPlayer(Vec2Int cellPos)
+Player* DevScene::FindClosestPlayer(Vec2Int pos)
 {
 	float best = FLT_MAX;
 	Player* ret = nullptr;
@@ -345,7 +320,7 @@ Player* DevScene::FindClosestPlayer(Vec2Int cellPos)
 		Player* player = dynamic_cast<Player*>(actor);
 		if (player)
 		{
-			Vec2Int dir = cellPos - player->GetCellPos();
+			Vec2Int dir = pos - player->GetCellPos();
 			float dist = dir.LengthSquared();
 			if (dist < best)
 			{
@@ -354,20 +329,27 @@ Player* DevScene::FindClosestPlayer(Vec2Int cellPos)
 			}
 		}
 	}
+
 	return ret;
 }
 
+// A* -> Dijikstra -> BFS -> Graph
+// PQ
 bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 maxDepth)
 {
-	int32 depth = abs(dest.y - src.y) + abs(dest.x - src.x);
+	// F = G + H
+	// F = 최종 점수(작을 수록 좋음)
+	// G = 시작점에서 해당 좌표까지 이동하는데 드는 비용
+	// H = 목적지에서 해당 좌표까지 이동하는데 드는 비용
+	int32 depth = abs(src.y - dest.y) + abs(src.x - dest.x);
 	if (depth >= maxDepth)
 		return false;
 
-	priority_queue<PQNode,vector<PQNode>, greater<PQNode>> pq;
+	priority_queue<PQNode, vector<PQNode>, greater<PQNode>> pq;
 	map<Vec2Int, int32> best;
 	map<Vec2Int, Vec2Int> parent;
 
-	//초기값
+	// 초기값
 	{
 		int32 cost = abs(dest.y - src.y) + abs(dest.x - src.x);
 
@@ -381,7 +363,7 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 		{0, -1},
 		{0, 1},
 		{-1, 0},
-		{1, 0}
+		{1, 0},
 	};
 
 	bool found = false;
@@ -391,15 +373,18 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 		// 제일 좋은 후보를 찾는다
 		PQNode node = pq.top();
 		pq.pop();
+
 		// 더 짧은 경로를 뒤늦게 찾았다면 스킵
 		if (best[node.pos] < node.cost)
 			continue;
+
 		// 목적지에 도착했으면 바로 종료
 		if (node.pos == dest)
 		{
 			found = true;
 			break;
 		}
+
 		// 방문
 		for (int32 dir = 0; dir < 4; dir++)
 		{
@@ -408,16 +393,16 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 			if (CanGo(nextPos) == false)
 				continue;
 
-			int32 depth = abs(nextPos.y - src.y) + abs(nextPos.x - src.x);
+			int32 depth = abs(src.y - nextPos.y) + abs(src.x - nextPos.x);
 			if (depth >= maxDepth)
 				continue;
 
-			int32 cost = abs(dest.y - src.y) + abs(dest.x - src.x);
-			int32 bestCost = best[nextPos];
-			if (bestCost != 0)
+			int32 cost = abs(dest.y - nextPos.y) + abs(dest.x - nextPos.x);
+			int32 bestValue = best[nextPos];
+			if (bestValue != 0)
 			{
 				// 다른 경로에서 더 빠른 길을 찾았으면 스킵
-				if (bestCost <= cost)
+				if (bestValue <= cost)
 					continue;
 			}
 
@@ -428,16 +413,15 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 		}
 	}
 
-	if (found == false) // 길이 막혀있다면
+	if (found == false)
 	{
-		// TODO
 		float bestScore = FLT_MAX;
 
 		for (auto& item : best)
 		{
 			Vec2Int pos = item.first;
 			int32 score = item.second;
-	
+
 			// 동점이라면, 최초 위치에서 가장 덜 이동하는 쪽으로
 			if (bestScore == score)
 			{
@@ -446,7 +430,6 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 				if (dist1 > dist2)
 					dest = pos;
 			}
-
 			else if (bestScore > score)
 			{
 				dest = pos;
@@ -455,20 +438,20 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 		}
 	}
 
-	// 길이 있다면
-	path.clear(); // 경로를 채워주기 위해
+	path.clear();
 	Vec2Int pos = dest;
 
 	while (true)
 	{
 		path.push_back(pos);
 
-		// 시작점... 부모 추적추적해서 시작점으로 간다.
+		// 시작점
 		if (pos == parent[pos])
 			break;
 
 		pos = parent[pos];
 	}
+
 	std::reverse(path.begin(), path.end());
 	return true;
 }
@@ -486,11 +469,11 @@ bool DevScene::CanGo(Vec2Int cellPos)
 	if (tile == nullptr)
 		return false;
 
-	// 몬스터 충돌
+	// 몬스터 충돌?
 	if (GetCreatureAt(cellPos) != nullptr)
 		return false;
 
-	return tile->value != 1; // 1은 벽이므로
+	return tile->value != 1;
 }
 
 Vec2 DevScene::ConvertPos(Vec2Int cellPos)
@@ -515,7 +498,8 @@ Vec2 DevScene::ConvertPos(Vec2Int cellPos)
 
 Vec2Int DevScene::GetRandomEmptyCellPos()
 {
-	Vec2Int ret = { -1,-1 };
+	Vec2Int ret = { -1, -1 };
+
 	if (_tilemapActor == nullptr)
 		return ret;
 
@@ -525,11 +509,12 @@ Vec2Int DevScene::GetRandomEmptyCellPos()
 
 	Vec2Int size = tm->GetMapSize();
 
+	// 몇 번 시도?
 	while (true)
 	{
 		int32 x = rand() % size.x;
 		int32 y = rand() % size.y;
-		Vec2Int cellPos{ x,y };
+		Vec2Int cellPos{ x, y };
 
 		if (CanGo(cellPos))
 			return cellPos;
@@ -538,8 +523,7 @@ Vec2Int DevScene::GetRandomEmptyCellPos()
 
 void DevScene::TickMonsterSpawn()
 {
-	if (_monsterCount < DESIRED_MONSTER_COUNT)
+	if (_monsterCount < DESIRED_COUNT)
 		SpawnObjectAtRandomPos<Monster>();
 }
-
 

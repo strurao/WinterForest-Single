@@ -6,7 +6,6 @@ class HitEffect : public GameObject
 	using Super = GameObject;
 
 public:
-public:
 	HitEffect();
 	virtual ~HitEffect() override;
 
@@ -14,7 +13,8 @@ public:
 	virtual void Tick() override;
 	virtual void Render(HDC hdc) override;
 
-private:
 	virtual void UpdateAnimation() override;
+
+protected:
 };
 

@@ -1,13 +1,16 @@
 #pragma once
 #include "Scene.h"
+#include <type_traits>
+
 class Actor;
+class Creature;
+class Player;
 class GameObject;
 class UI;
-class Player;
 
 struct PQNode
 {
-	PQNode(int32 cost, Vec2Int pos) :cost(cost), pos(pos) {}
+	PQNode(int32 cost, Vec2Int pos) : cost(cost), pos(pos) { }
 
 	bool operator<(const PQNode& other) const { return cost < other.cost; }
 	bool operator>(const PQNode& other) const { return cost > other.cost; }
@@ -17,9 +20,8 @@ struct PQNode
 };
 
 class DevScene : public Scene
-{ 
+{
 	using Super = Scene;
-
 public:
 	DevScene();
 	virtual ~DevScene() override;
@@ -34,14 +36,14 @@ public:
 	void LoadMap();
 	void LoadPlayer();
 	void LoadMonster();
-	void LoadProjectile();
+	void LoadProjectiles();
 	void LoadEffect();
 	void LoadTilemap();
 
 	template<typename T>
 	T* SpawnObject(Vec2Int pos)
 	{
-		auto isGameObject = std::is_convertible_v<T*, GameObject*>; // 컴파일 타임에 실행된다
+		auto isGameObject = std::is_convertible_v<T*, GameObject*>;
 		assert(isGameObject);
 
 		T* ret = new T();
@@ -60,8 +62,10 @@ public:
 		return SpawnObject<T>(randPos);
 	}
 
-	Player* FindClosestPlayer(Vec2Int cellPos);
+	Player* FindClosestPlayer(Vec2Int pos);
+
 	bool FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 maxDepth = 10);
+
 	bool CanGo(Vec2Int cellPos);
 	Vec2 ConvertPos(Vec2Int cellPos);
 	Vec2Int GetRandomEmptyCellPos();
@@ -69,11 +73,8 @@ public:
 private:
 	void TickMonsterSpawn();
 
-private:
-	const int32 DESIRED_MONSTER_COUNT = 20;
-	int32 _monsterCount = 0;
-
-private:
+	const int32 DESIRED_COUNT = 30;
 	class TilemapActor* _tilemapActor = nullptr;
+	int32 _monsterCount = 0;
 };
 

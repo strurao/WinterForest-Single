@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "Creature.h"
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "Flipbook.h"
 #include "CameraComponent.h"
-#include "BoxCollider.h"
 #include "SceneManager.h"
 #include "DevScene.h"
 
@@ -16,6 +16,7 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+
 }
 
 void GameObject::BeginPlay()
@@ -47,7 +48,6 @@ void GameObject::Tick()
 void GameObject::Render(HDC hdc)
 {
 	Super::Render(hdc);
-
 }
 
 void GameObject::SetState(ObjectState state)
@@ -93,7 +93,7 @@ Dir GameObject::GetLookAtDir(Vec2Int cellPos)
 		return DIR_UP;
 }
 
-void GameObject::SetCellPos(Vec2Int cellPos, bool teleport)
+void GameObject::SetCellPos(Vec2Int cellPos, bool teleport /*= false*/)
 {
 	_cellPos = cellPos;
 
@@ -112,15 +112,14 @@ Vec2Int GameObject::GetFrontCellPos()
 	switch (_dir)
 	{
 	case DIR_DOWN:
-		return _cellPos + Vec2Int{ 0,1 };
+		return _cellPos + Vec2Int{ 0, 1 };
 	case DIR_LEFT:
-		return _cellPos + Vec2Int{ -1,0 };
+		return _cellPos + Vec2Int{ -1, 0 };
 	case DIR_RIGHT:
-		return _cellPos + Vec2Int{ 1,0 };
+		return _cellPos + Vec2Int{ 1, 0 };
 	case DIR_UP:
-		return _cellPos + Vec2Int{ 0,-1 };
-	default:
-		break;
+		return _cellPos + Vec2Int{ 0, -1 };
 	}
+
 	return _cellPos;
 }
