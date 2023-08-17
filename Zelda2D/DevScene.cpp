@@ -92,16 +92,18 @@ void DevScene::Update()
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
 	TickMonsterSpawn();
-	/*
+
+
+	
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Q))
 	{
-		GET_SINGLE(ResourceManager)->SaveTilemap(L"Tilemap_01", L"Tilemap\\Tilemap01.txt");
+		GET_SINGLE(ResourceManager)->SaveTilemap(L"Tilemap_02", L"Tilemap\\Tilemap02.txt");
 	}
 	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::E))
 	{
-		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_01", L"Tilemap\\Tilemap01.txt");
+		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_02", L"Tilemap\\Tilemap02.txt");
 	}
-	*/
+	
 }
 
 void DevScene::Render(HDC hdc)
@@ -322,14 +324,14 @@ void DevScene::LoadTilemap()
 	AddActor(actor);
 	_tilemapActor = actor;
 	{
-		auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_01");
+		auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_02");
 		tm->SetMapSize({ 63, 43 });
 		tm->SetTileSize(48);
 
-		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_01", L"Tilemap\\Tilemap_01.txt");
+		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_02", L"Tilemap\\Tilemap_02.txt");
 
 		_tilemapActor->SetTilemap(tm);
-		_tilemapActor->SetShowDebug(false);
+		_tilemapActor->SetShowDebug(true);
 	}
 }
 

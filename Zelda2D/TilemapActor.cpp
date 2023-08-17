@@ -25,7 +25,7 @@ void TilemapActor::Tick()
 {
 	Super::Tick();
 
-	// TilePicking();
+	TilePicking();
 }
 
 void TilemapActor::Render(HDC hdc)
@@ -125,7 +125,10 @@ void TilemapActor::TilePicking()
 		Tile* tile = _tilemap->GetTileAt({ x, y });
 		if (tile)
 		{
-			tile->value = 1; // O->X
+			if (tile->value == 0)
+				tile->value = 1; // O->X
+			else if (tile->value == 1)
+				tile->value = 0; // O->X
 		}
 	}
 }
