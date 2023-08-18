@@ -15,5 +15,4 @@ Applied the life cycle
 State Pattern
 Let's think about everything based on __**Status**__ to prevent spaghetti code and boolean hard work
 
-
-![image](https://github.com/strurao/Zelda/assets/126440235/7a0fd980-f1bc-474b-bae0-b2076045c7b5)
+![Untitled (4)](https://github.com/strurao/RoguelikeRPG/assets/126440235/a6e801e5-9f7d-47cc-bb66-5876a61ca231)
